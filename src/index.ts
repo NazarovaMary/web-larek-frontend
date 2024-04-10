@@ -6,7 +6,7 @@ import { AppLication, CatalogChangeEvent, Product } from './components/structure
 import { Basket } from './components/structure/Basket';
 import { BasketItem, Card } from './components/structure/ProductCard';
 import { Contacts } from './components/structure/ContactForm';
-import { LarekAPI } from './components/base/LarekApi';
+import { LarekAPI } from './components/LarekApi';
 import { Order } from './components/structure/Order';
 import { Page } from './components/structure/Page';
 import { Success } from './components/structure/Success';
