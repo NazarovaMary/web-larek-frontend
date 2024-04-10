@@ -9,10 +9,10 @@ interface IPage {
 }
 
 export class Page extends Component<IPage> {
-  protected _counter: HTMLElement;
   protected _catalog: HTMLElement;
-  protected _wrapper: HTMLElement;
+  protected _counter: HTMLElement;
   protected _basket: HTMLElement;
+  protected _wrapper: HTMLElement;
 
   constructor(container: HTMLElement, protected events: IEvents) {
     super(container);

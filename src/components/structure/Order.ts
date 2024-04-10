@@ -9,8 +9,8 @@ export interface IOrder {
 }
 
 export class Order extends Form<IOrderContactForm> {
-  protected _paymentContainer: HTMLDivElement;
   protected _paymentButton: HTMLButtonElement[];
+  protected _paymentContainer: HTMLDivElement;
   protected _addressInput: HTMLInputElement;
 
   constructor(container: HTMLFormElement, events: IEvents) {
