@@ -33,6 +33,22 @@ export class Card<T> extends Component<ICard> {
     }
   }
 
+  priceNull(value: number | null) {
+    if (!value) {
+      if(this._button) {
+        this._button.disabled = true;
+      }
+    }
+  }
+
+  private categoryTeg: Record<string, string> = {
+    "софт-скил": "_soft",
+    "хард-скил": "_hard",
+    кнопка: "_button",
+    дополнительное: "_additional",
+    другое: "_other"
+  }
+
   set id(value: string) {
     this.container.dataset.id = value;
   }
@@ -51,7 +67,7 @@ export class Card<T> extends Component<ICard> {
 
   set buttonTitle(value: string) {
     if(this._button) {
-      this._button.textContent = value;
+      this.setText(this._button, value);
     }
   }
 
@@ -64,6 +80,7 @@ export class Card<T> extends Component<ICard> {
 
   set price(value: number | null) {
     this.setText(this._price, (value) ? `${value.toString()} синапсов` : 'Бесценно');
+    this.priceNull(value);
     }
 
   get price(): number {
@@ -75,7 +92,7 @@ export class Card<T> extends Component<ICard> {
     const category = this._category.classList[0];
     this._category.className = '';
     this._category.classList.add(`${category}`);
-    
+    this._category.classList.add(`${category}${this.categoryTeg[value]}`)
   }
 
   set description(value: string | string[]) {

@@ -225,9 +225,7 @@ image: string - изображение товара;<br>
 category: string - категория товара (например, софт-скил на макете);<br>
 title: string - наименование товара;<br>
 description?: string - описание товара;<br>
-price: string | number - цена товара;<br>
-set — устанавливает значение у свойства товара;<br>
-get — получает значение у свойства товара.
+price: string | number - цена товара.<br>
 
 <h3>:alien: Класс Modal -</h3>
 

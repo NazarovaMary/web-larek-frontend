@@ -2,7 +2,7 @@ import './scss/styles.scss';
 import { EventEmitter } from './components/base/events';
 import  { Modal } from './components/modal/Modal';
 
-import { AppLication, CatalogChangeEvent, Product } from './components/structure/AppLication';
+import { AppLication, CatalogChangeEvent } from './components/structure/AppLication';
 import { Basket } from './components/structure/Basket';
 import { BasketItem, Card } from './components/structure/ProductCard';
 import { Contacts } from './components/structure/ContactForm';
@@ -11,7 +11,7 @@ import { Order } from './components/structure/Order';
 import { Page } from './components/structure/Page';
 import { Success } from './components/structure/Success';
 
-import { IContactForm, IOrderContactForm } from './types';
+import { IContactForm, IOrderContactForm, IProductCard } from './types';
 import { cloneTemplate, ensureElement } from './utils/utils';
 import { API_URL, CDN_URL } from './utils/constants';
 
@@ -43,6 +43,7 @@ events.on<CatalogChangeEvent>('items:changed', () => {
       category: item.category
     })
   })
+  page.counter = appLication.getReturnItems().length
 });
 
 events.on('basket:open', () => {
@@ -51,7 +52,7 @@ events.on('basket:open', () => {
   })
 });
 
-events.on('card:select', (item: Product) => {
+events.on('card:select', (item: IProductCard) => {
   appLication.setPreview(item);
 });
 
@@ -76,23 +77,23 @@ events.on('basket:changed', () => {
 });
 
 events.on('counter:changed', () => {
-  page.counter = appLication.basket.length;
+  page.counter = appLication.getReturnItems().length
 });
 
-events.on('product:add', (item: Product) => {
+events.on('product:add', (item: IProductCard) => {
   appLication.addBasketArticle(item);
   modal.close();
 });
 
-events.on('product:delete', (item: Product) => {
+events.on('product:delete', (item: IProductCard) => {
   appLication.deleteBasketArticle(item.id)
 });
 
-events.on('preview:changed', (item: Product) => {
+events.on('preview:changed', (item: IProductCard) => {
   if(item) {
     api
       .getProduct(item.id)
-      .then((res) => {
+      .then((res: IProductCard) => {
         item.id = res.id;
         item.category = res.category;
         item.title = res.title;

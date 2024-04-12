@@ -2,17 +2,18 @@ import { IAppState, IProductCard, IOrder, FormError, IContactForm, PaymentMethod
 import { Model } from '../base/model';
 
 export type CatalogChangeEvent = {
-  catalog: Product[];
+  catalog: IProductCard[];
 }
 
-export class Product extends Model<IProductCard> implements IProductCard {
-  id: string;
-  description: string;
-  image: string;
-  title: string;
-  category: string;
-  price: number;
-}
+//export class Product extends Model<IProductCard> //implements IProductCard 
+//{
+//  id: string;
+ // description: string;
+ // image: string;
+ // title: string;
+ // category: string;
+ // price: number;
+//}
 
 export class AppLication extends Model<IAppState> {
   catalog: IProductCard[];
@@ -50,13 +51,13 @@ export class AppLication extends Model<IAppState> {
   }
 
   upCatalog(items: IProductCard[]) {
-    this.catalog = items.map(item => new Product(item, this.events))
-    this.emitChanges('items:changed', { catalog: this.catalog })
+    this.catalog = items;
+    this.emitChanges('items:changed', { catalog: this.catalog });
   }
 
-  setPreview(item: Product) {
+  setPreview(item: IProductCard) {
     this.preview = item.id;
-    this.emitChanges('preview:changed', item)
+    this.emitChanges('preview:changed', item);
   }
 
   getReturnItems(): IProductCard[] {
@@ -67,7 +68,7 @@ export class AppLication extends Model<IAppState> {
     return this.basket.includes(item);
   }
 
-  addBasketArticle(item: Product) {
+  addBasketArticle(item: IProductCard) {
     if(this.basket.indexOf(item) < 0) {
       this.basket.push(item)
       this.updateBasket();
