@@ -105,14 +105,14 @@ events.on('basket:changed', () => {
           basket.total = appLication.getTotal()
         },
     });
-  //  total += item.price;
-  total = total + item.price;
+    total = total + item.price;
     return card.render({
       title: item.title,
       price: item.price,
     })
   })
-  basket.total = total;  
+  basket.total = total; 
+  appLication.order.total = total;
 });
 
 events.on('counter:changed', () => {
@@ -211,4 +211,3 @@ api.getProductList()
     .catch(err => {
       console.log(err);
     });
-
