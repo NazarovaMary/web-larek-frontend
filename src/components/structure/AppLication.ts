@@ -75,6 +75,11 @@ export class AppLication extends Model<IAppState> {
     }
   }
 
+  getTotal(){
+    return  this.basket.reduce((summ, IProductItem)=> 
+      summ+IProductItem.price,0);
+}
+
   deleteBasketArticle(id: string) {
     this.basket = this.basket.filter((it) => it.id != id)
     this.emitChanges('basket:changed');

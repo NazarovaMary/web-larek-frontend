@@ -46,47 +46,8 @@ events.on<CatalogChangeEvent>('items:changed', () => {
   page.counter = appLication.getReturnItems().length
 });
 
-events.on('basket:open', () => {
-  modal.render({
-    content: basket.render({})
-  })
-});
-
 events.on('card:select', (item: IProductCard) => {
   appLication.setPreview(item);
-});
-
-events.on('basket:changed', () => {
-  page.counter = appLication.getReturnItems().length
-  let total = 0
-  basket.items = appLication.getReturnItems().map((item, index) => {
-    const card = new BasketItem(cloneTemplate(cardBasketTemplate), index, {
-        onClick: () => {
-          appLication.deleteBasketArticle(item.id)
-          basket.total = appLication.getBasketPrice();
-        },
-    });
-    total += item.price;
-    return card.render({
-      title: item.title,
-      price: item.price,
-    })
-  })
-  basket.total = total;
-  appLication.order.total = total;
-});
-
-events.on('counter:changed', () => {
-  page.counter = appLication.getReturnItems().length
-});
-
-events.on('product:add', (item: IProductCard) => {
-  appLication.addBasketArticle(item);
-  modal.close();
-});
-
-events.on('product:delete', (item: IProductCard) => {
-  appLication.deleteBasketArticle(item.id)
 });
 
 events.on('preview:changed', (item: IProductCard) => {
@@ -100,7 +61,6 @@ events.on('preview:changed', (item: IProductCard) => {
         item.description = res.description;
         item.image = res.image;
         item.price = res.price;
-
         const card = new Card('card', cloneTemplate(cardPreviewTemplate), {
           onClick: () => {
             if(appLication.getAccessOrder(item)) {
@@ -126,6 +86,46 @@ events.on('preview:changed', (item: IProductCard) => {
         });
       });
     }
+});
+
+events.on('basket:open', () => {
+  modal.render({
+    content: basket.render({})
+  })
+});
+
+events.on('basket:changed', () => {
+  page.counter = appLication.getReturnItems().length
+  let total = 0
+  basket.items = appLication.getReturnItems().map((item, index) => {
+    const card = new BasketItem(cloneTemplate(cardBasketTemplate), index, {
+        onClick: () => {
+          appLication.deleteBasketArticle(item.id)
+          basket.total = appLication.getBasketPrice();
+          basket.total = appLication.getTotal()
+        },
+    });
+  //  total += item.price;
+  total = total + item.price;
+    return card.render({
+      title: item.title,
+      price: item.price,
+    })
+  })
+  basket.total = total;  
+});
+
+events.on('counter:changed', () => {
+  page.counter = appLication.getReturnItems().length
+});
+
+events.on('product:add', (item: IProductCard) => {
+  appLication.addBasketArticle(item);
+  modal.close();
+});
+
+events.on('product:delete', (item: IProductCard) => {
+  appLication.deleteBasketArticle(item.id)
 });
 
 events.on('order:open', () => {
